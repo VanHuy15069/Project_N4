@@ -9,7 +9,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 configViewEngine(app);
 initWebRoutes(app);
-const port = process.env.PORT;
+
+const port = process.env.PORT || 2077;
 app.listen(port, () => {
     console.log('It is running on the port: ' + port);
 });
