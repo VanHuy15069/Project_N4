@@ -12,5 +12,5 @@ initWebRoutes(app);
 
 const port = process.env.PORT || 2077;
 app.listen(port, () => {
-    console.log('It is running on the port: ' + port);
+    console.log('NodeJS running on localhost:' + port);
 });
