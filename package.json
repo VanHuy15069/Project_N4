@@ -22,10 +22,15 @@
     },
     "homepage": "https://github.com/VanHuy15069/Project_N4#readme",
     "dependencies": {
+        "bcryptjs": "^2.4.3",
         "body-parser": "^1.20.2",
         "dotenv": "^10.0.0",
         "ejs": "^3.1.9",
-        "express": "^4.18.2"
+        "express": "^4.18.2",
+        "jsonwebtoken": "^9.0.0",
+        "mysql2": "^3.2.0",
+        "sequelize": "^6.31.0",
+        "sequelize-cli": "^6.6.0"
     },
     "devDependencies": {
         "@babel/core": "^7.19.6",

@@ -1,10 +1,11 @@
-import express from 'express';
+import authRouter from './auth';
 
-const router = express.Router();
-const initWebRoutes = (app) => {
-    router.get('/', (req, res) => {
-        return res.send('ANH HUY DEP ZAI!');
+const initRoutes = (app) => {
+    app.use('/api/v1/auth', authRouter);
+
+    return app.use('/', (req, res) => {
+        res.send('Anh...');
     });
-    app.use('/', router);
 };
-export default initWebRoutes;
+
+export default initRoutes;
