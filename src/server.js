@@ -1,10 +1,10 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import configViewEngine from './configs/viewEngine';
-import initWebRoutes from './route/web';
+import initWebRoutes from './routes/web';
 require('dotenv').config();
 import connectDB from './/config/connectDB';
-import initRoutes from './route/web';
+import initRoutes from './routes/web';
 
 const app = express();
 app.use(bodyParser.json());
