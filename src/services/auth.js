@@ -1,7 +1,8 @@
 import db from '../models';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-require('dotenv').config();
+import * as dotenv from 'dotenv';
+dotenv.config({ path: './.env.example' });
 const hashPassword = (password) => bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 
 export const registerService = ({ username, password, firstName, lastName, phoneNumber, address, email }) =>
@@ -21,8 +22,8 @@ export const registerService = ({ username, password, firstName, lastName, phone
             });
             const token =
                 response[1] &&
-                jwt.sign({ password: response[0].password, username: response[0].username }, process.env.SECRET_KEY, {
-                    expiresIn: '10',
+                jwt.sign({ id: response[0].id, username: response[0].username }, process.env.ACCESS_SECRET_KEY, {
+                    expiresIn: '2d',
                 });
             resolve({
                 err: token ? 0 : 2,
@@ -34,7 +35,7 @@ export const registerService = ({ username, password, firstName, lastName, phone
         }
     });
 
-export const loginService = ({ username, password, id }) =>
+export const loginService = ({ username, password }) =>
     new Promise(async (resolve, reject) => {
         try {
             const response = await db.User.findOne({
@@ -48,8 +49,8 @@ export const loginService = ({ username, password, id }) =>
 
             const token =
                 isCorrectPassword &&
-                jwt.sign({ password: response.password, username: response.username }, process.env.SECRET_KEY, {
-                    expiresIn: '10',
+                jwt.sign({ id: response.id, username: response.username }, process.env.ACCESS_SECRET_KEY, {
+                    expiresIn: '2d',
                 });
             resolve({
                 err: token ? 0 : 2,
