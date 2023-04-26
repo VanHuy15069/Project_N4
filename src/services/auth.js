@@ -26,6 +26,7 @@ export const registerService = ({ username, password, firstName, lastName, phone
                     expiresIn: '2d',
                 });
             resolve({
+                response: response,
                 err: token ? 0 : 2,
                 msg: token ? 'Register is successfully !' : 'username is has been already used !',
                 token: token || null,
@@ -39,7 +40,7 @@ export const loginService = ({ username, password }) =>
     new Promise(async (resolve, reject) => {
         try {
             const response = await db.User.findOne({
-                where: { username },
+                where: { username: username },
                 defaults: {
                     raw: true,
                 },
@@ -49,10 +50,15 @@ export const loginService = ({ username, password }) =>
 
             const token =
                 isCorrectPassword &&
-                jwt.sign({ id: response.id, username: response.username }, process.env.ACCESS_SECRET_KEY, {
-                    expiresIn: '2d',
-                });
+                jwt.sign(
+                    { id: response.id, admin: response.admin, username: response.username },
+                    process.env.ACCESS_SECRET_KEY,
+                    {
+                        expiresIn: '2d',
+                    },
+                );
             resolve({
+                response: response,
                 err: token ? 0 : 2,
                 msg: token ? 'login is successfully !' : response ? 'password is wrong!' : 'username is not found !',
                 token: token || null,

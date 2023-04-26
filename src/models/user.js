@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
             phoneNumber: DataTypes.STRING(255),
             address: DataTypes.STRING(255),
             email: DataTypes.STRING(255),
+            admin: DataTypes.BOOLEAN(false),
         },
         {
             sequelize,
