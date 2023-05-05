@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable('FeelBack', {
+        await queryInterface.createTable('Contacts', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
@@ -12,13 +12,13 @@ module.exports = {
             fullName: {
                 type: Sequelize.STRING,
             },
-            email: {
-                type: Sequelize.STRING,
-            },
             phoneNumber: {
                 type: Sequelize.STRING,
             },
             address: {
+                type: Sequelize.STRING,
+            },
+            email: {
                 type: Sequelize.STRING,
             },
             note: {
@@ -35,6 +35,6 @@ module.exports = {
         });
     },
     async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable('FeelBack');
+        await queryInterface.dropTable('Contacts');
     },
 };

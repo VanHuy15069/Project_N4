@@ -9,13 +9,19 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
+            orderDetails.hasOne(models.Order, { foreignKey: 'orderDetailId', as: 'orderDetails' });
+            orderDetails.belongsTo(models.User, { foreignKey: 'userId', targetKey: 'id', as: 'users' });
+            orderDetails.belongsTo(models.Product, { foreignKey: 'productId', targetKey: 'id', as: 'products' });
         }
     }
     orderDetails.init(
         {
-            orderId: DataTypes.INTEGER,
+            userId: DataTypes.INTEGER,
             productId: DataTypes.INTEGER,
-            quality: DataTypes.STRING(255),
+            note: DataTypes.STRING(255),
+            quantity: DataTypes.INTEGER,
+            priceTotal: DataTypes.INTEGER,
+            status: DataTypes.STRING(255),
         },
         {
             sequelize,

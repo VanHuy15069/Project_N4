@@ -1,5 +1,4 @@
 import db from '../models';
-import jwt from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
 dotenv.config({ path: './env.example' });
 export const getAllUsers = () =>
@@ -36,14 +35,11 @@ export const updateUser = (data, id) =>
                 where: { id: id },
             });
             if (user) {
-                user.update(
-                    (user.firstName = data.firstName),
-                    (user.lastName = data.lastName),
-                    (user.phoneNumber = data.phoneNumber),
-                    (user.address = data.address),
-                    (user.email = data.email),
-                    { where: { data: data } },
-                );
+                user.update((user.firstName = data.firstName), { where: { data: data } });
+                user.update((user.lastName = data.lastName), { where: { data: data } });
+                user.update((user.phoneNumber = data.phoneNumber), { where: { data: data } });
+                user.update((user.address = data.address), { where: { data: data } });
+                user.update((user.email = data.email), { where: { data: data } });
                 await user.save();
                 resolve(user);
             } else {

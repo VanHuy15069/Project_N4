@@ -6,5 +6,5 @@ let getCRUD = (req, res) => {
 };
 
 module.exports = {
-    getCRUD: getCRUD
-}
+    getCRUD: getCRUD,
+};
