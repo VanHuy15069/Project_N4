@@ -1,8 +1,6 @@
 import db from '../models';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import { resolve } from 'path';
-import { rejects } from 'assert';
 dotenv.config({ path: './env.example' });
 
 // add product

@@ -12,17 +12,23 @@ module.exports = {
             userId: {
                 type: Sequelize.INTEGER,
             },
-            productId: {
+            orderId: {
                 type: Sequelize.INTEGER,
             },
-            note: {
+            fullName: {
                 type: Sequelize.STRING,
             },
-            quantity: {
-                type: Sequelize.INTEGER,
+            address: {
+                type: Sequelize.STRING,
             },
-            priceTotal: {
-                type: Sequelize.INTEGER,
+            phoneNumber: {
+                type: Sequelize.STRING,
+            },
+            email: {
+                type: Sequelize.STRING,
+            },
+            note: {
+                type: Sequelize.TEXT,
             },
             status: {
                 type: Sequelize.STRING,

@@ -9,17 +9,17 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            orderDetailId: {
+            userId: {
                 type: Sequelize.INTEGER,
             },
-            fullName: {
-                type: Sequelize.STRING,
+            productId: {
+                type: Sequelize.INTEGER,
             },
-            address: {
-                type: Sequelize.STRING,
+            quantity: {
+                type: Sequelize.INTEGER,
             },
-            phoneNumber: {
-                type: Sequelize.STRING,
+            priceTotal: {
+                type: Sequelize.INTEGER,
             },
             updatedAt: {
                 allowNull: false,
