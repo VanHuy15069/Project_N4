@@ -3,7 +3,6 @@ import jwt from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
 dotenv.config({ path: './env.example' });
 
-const Product = db.Product;
 export const getCategory = () =>
     new Promise(async (resolve, reject) => {
         try {
@@ -46,7 +45,7 @@ export const addCategory = (data) =>
         }
     });
 
-//
+//nam gioi
 export const getCategoryMale = () =>
     new Promise(async (resolve, reject) => {
         try {
@@ -56,7 +55,7 @@ export const getCategoryMale = () =>
                     {
                         model: db.Product,
                         as: 'ProductDetails',
-                        attributes: ['title', 'image', 'price'],
+                        attributes: ['id', 'title', 'image', 'price'],
                     },
                 ],
                 where: { id: 1 },
@@ -79,7 +78,7 @@ export const getCategoryFemale = () =>
                     {
                         model: db.Product,
                         as: 'ProductDetails',
-                        attributes: ['title', 'image', 'price'],
+                        attributes: ['id', 'title', 'image', 'price'],
                     },
                 ],
                 where: { id: 2 },
@@ -87,6 +86,40 @@ export const getCategoryFemale = () =>
             resolve({
                 cate: cate,
             });
+        } catch (error) {
+            reject(error);
+        }
+    });
+
+//updateCategory
+export const updateCategory = (data) =>
+    new Promise(async (resolve, reject) => {
+        try {
+            const findId = await db.Categories.findOne({ where: { id: data.id } });
+            if (findId) {
+                findId.update((findId.name = data.name), { where: { data: data } });
+                await findId.save();
+                resolve(findId);
+            }
+            resolve({});
+        } catch (error) {
+            reject(error);
+        }
+    });
+
+//delete category
+
+export const deleteCategoryId = (data) =>
+    new Promise(async (resolve, reject) => {
+        try {
+            const deleteId = await db.Categories.findOne({
+                where: { id: data },
+            });
+            if (deleteId) {
+                deleteId.destroy();
+                resolve(deleteId);
+            }
+            resolve({});
         } catch (error) {
             reject(error);
         }

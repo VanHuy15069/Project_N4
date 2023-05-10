@@ -1,6 +1,10 @@
 import db from '../models';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import fs from 'fs';
+import { promisify } from 'util';
+import { fileURLToPath } from 'url';
+import path from 'path';
 dotenv.config({ path: './env.example' });
 
 // add product
@@ -61,10 +65,11 @@ export const getAllProduct = () =>
 
 // kết nối một với nhiều mối quan hệ Sản phẩm và danh muc
 
-export const getProductCategory = () =>
+export const getProductDetails = (id) =>
     new Promise(async (resolve, rejects) => {
         try {
-            const productCategory = await db.Product.findAll({
+            const details = await db.Product.findOne({
+                where: { id: id },
                 attributes: ['categoryId', 'title', 'image', 'price', 'weight', 'supplier', 'summary', 'quantity'],
                 include: [
                     {
@@ -76,9 +81,56 @@ export const getProductCategory = () =>
                 // where: { id: 5 },
             });
             resolve({
-                productCategory: productCategory,
+                details: details,
             });
         } catch (error) {
             rejects(error);
+        }
+    });
+
+export const deleteProduct = (data) =>
+    new Promise(async (resolve, reject) => {
+        try {
+            const dp = await db.Product.findOne({
+                where: { id: data.id },
+            });
+            const clearPath = path.resolve(__dirname, '..', '', `Images/${dp.image}`);
+            if (dp) {
+                await fs.unlinkSync(clearPath);
+                console.log(clearPath);
+                await dp.destroy();
+                resolve(dp);
+            }
+            resolve({});
+        } catch (error) {
+            reject(error);
+        }
+    });
+
+// update
+export const updateProduct = (data) =>
+    new Promise(async (resolve, reject) => {
+        try {
+            const up = await db.Product.findOne({
+                where: { id: data.id },
+            });
+            const clearImage = path.resolve(__dirname, '..', '', `Images/${up.image}`);
+            await fs.unlinkSync(clearImage);
+            if (up) {
+                // categoryId, title,image, price, weight, supplier, summary, quantity
+                up.update(((up.categoryId = data.categoryId), { where: { data: data } }));
+                up.update(((up.title = data.title), { where: { data: data } }));
+                up.update(((up.image = data.image), { where: { data: data } }));
+                up.update(((up.price = data.price), { where: { data: data } }));
+                up.update(((up.weight = data.weight), { where: { data: data } }));
+                up.update(((up.supplier = data.supplier), { where: { data: data } }));
+                up.update(((up.summary = data.summary), { where: { data: data } }));
+                up.update(((up.quantity = data.quantity), { where: { data: data } }));
+                await up.save();
+                resolve(up);
+            }
+            resolve({});
+        } catch (error) {
+            reject(error);
         }
     });

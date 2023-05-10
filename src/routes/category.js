@@ -7,5 +7,7 @@ router.get('/getCategory', categoryController.getCategory);
 router.get('/getCategoryMale', categoryController.getCategoryMale);
 router.get('/getCategoryFeMale', categoryController.getCategoryFemale);
 router.post('/addCategory', categoryController.addCategory);
+router.put('/:id', categoryController.updateCategory);
+router.delete('/:id', categoryController.deleteCategoryId);
 
 export default router;

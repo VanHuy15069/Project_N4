@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import configViewEngine from './configs/viewEngine';
 require('dotenv').config();
+import path from 'path';
 import connectDB from './/config/connectDB';
 import initRoutes from './routes/web';
 
@@ -23,8 +24,10 @@ configViewEngine(app);
 
 initRoutes(app);
 
+//
+
 // static images folder
-app.use('/Images', express.static('./Images'));
+app.use('/scr', express.static(path.join(__dirname, '/Images')));
 //kết nối với cơ sở dữ liệu
 connectDB();
 
