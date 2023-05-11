@@ -55,7 +55,7 @@ export const getCategoryMale = () =>
                     {
                         model: db.Product,
                         as: 'ProductDetails',
-                        attributes: ['id', 'title', 'image', 'price'],
+                        attributes: ['id', 'title', 'image', 'price', 'supplier'],
                     },
                 ],
                 where: { id: 1 },
@@ -78,7 +78,7 @@ export const getCategoryFemale = () =>
                     {
                         model: db.Product,
                         as: 'ProductDetails',
-                        attributes: ['id', 'title', 'image', 'price'],
+                        attributes: ['id', 'title', 'image', 'price', 'supplier'],
                     },
                 ],
                 where: { id: 2 },
