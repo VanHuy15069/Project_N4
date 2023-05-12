@@ -5,7 +5,7 @@ import { rejects } from 'assert';
 dotenv.config({ path: './env.example' });
 
 export const putContact = async (data) => {
-    return new Promise (async (resolve, rejects) => {
+    return new Promise(async (resolve, rejects) => {
         try {
             await db.Contact.create({
                 fullName: data.fullName,
@@ -15,6 +15,20 @@ export const putContact = async (data) => {
                 note: data.note,
             });
             resolve('Add successfully!');
+        } catch (error) {
+            rejects(error);
+        }
+    });
+};
+
+export const getFeedback = () => {
+    return new Promise(async (resolve, rejects) => {
+        try {
+            let feedback = await db.Contact.findAll({ raw: true });
+            resolve({
+                err: 0,
+                data: feedback,
+            });
         } catch (error) {
             rejects(error);
         }
