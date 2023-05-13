@@ -14,7 +14,10 @@ export const putContact = async (data) => {
                 email: data.email,
                 note: data.note,
             });
-            resolve('Add successfully!');
+            resolve({
+                err: 0,
+                msg: 'Add successfully',
+            });
         } catch (error) {
             rejects(error);
         }
