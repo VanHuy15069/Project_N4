@@ -2,8 +2,7 @@ import db from '../models';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import fs from 'fs';
-import { promisify } from 'util';
-import { fileURLToPath } from 'url';
+
 import path from 'path';
 dotenv.config({ path: './env.example' });
 
