@@ -66,15 +66,8 @@ export const deleteBlog = async (req, res) => {
             id: req.params.id,
             image: req.body.image,
         };
-        if (!data.id) {
-            res.status(404).json({
-                err: 1,
-                msg: 'ID not found',
-            });
-        } else {
-            const dp = await blogService.deleteBlog(data);
-            res.status(200).json(dp);
-        }
+        const dp = await blogService.deleteBlog(data);
+        res.status(200).json(dp);
     } catch (err) {
         res.status(500).json({
             err: -1,
@@ -87,16 +80,17 @@ export const updateBlog = async (req, res) => {
     try {
         const data = {
             id: req.params.id,
-            title: req.params.title,
-            image: req.params.image,
-            contentHTML: req.params.contentHTML,
-            contentHTMLMarkdown: req.params.contentHTMLMarkdown,
+            title: req.body.title,
+            contentHTML: req.body.contentHTML,
+            contentHTMLMarkdown: req.body.contentHTMLMarkdown,
         };
-        if (!data.title || !data.image || !data.contentHTML || !data.contentHTMLMarkdown) {
+        console.log(data);
+        if (!data.title || !data.contentHTML || !data.contentHTMLMarkdown || !data.id) {
             res.status(404).json({
                 err: 1,
                 msg: 'Chua nhap du thong tin',
             });
+            
         } else {
             const updateID = await blogService.updateBlog(data);
             res.status(200).json({
@@ -109,6 +103,28 @@ export const updateBlog = async (req, res) => {
         res.status(500).json({
             err: -1,
             msg: 'UPDATE ERROR: ' + err,
+        });
+    }
+};
+export const getOneBlog = async (req, res) => {
+    try {
+        const id = req.params.id;
+        if (id === null) {
+            res.status(400).json({
+                err: 1,
+                msg: 'ko tim thay id',
+            });
+        }
+        const response = await blogService.getOneBolg(id);
+        res.status(200).json({
+            err: 0,
+            msg: 'get one blog is successfully',
+            response: response,
+        });
+    } catch (error) {
+        res.status(500).json({
+            err: -1,
+            msg: 'get one blog faild ' + error,
         });
     }
 };

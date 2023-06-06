@@ -2,8 +2,7 @@ import db from '../models';
 import jwt from 'jsonwebtoken';
 import fs from 'fs';
 import * as dotenv from 'dotenv';
-import path, { resolve } from 'path';
-import { rejects } from 'assert';
+import path from 'path';
 
 dotenv.config({ path: './.env.example' });
 
@@ -82,21 +81,42 @@ export const updateBlog = (data) =>
             const updateBlog = await db.Blog.findOne({
                 where: { id: data.id },
             });
-
-            const clearImage = path.resolve(__dirname, '..', '', `Images/${updateBlog.image}`);
-            await fs.unlinkSync(clearImage);
-            if (update) {
-                updateBlog.update(((update.title = data.title), { where: { data: data } }));
-                updateBlog.update(((updateBlog.image = data.image), { where: { data: data } }));
-                updateBlog.update(((updateBlog.contentHTML = data.contentHTML), { where: { data: data } }));
-                updateBlog.update(
-                    ((updateBlog.contentHTMLMarkdown = data.contentHTMLMarkdown), { where: { data: data } }),
-                );
+            if (updateBlog) {
+                updateBlog.update((updateBlog.title = data.title), { where: { data: data } });
+                updateBlog.update((updateBlog.contentHTML = data.contentHTML), { where: { data: data } });
+                updateBlog.update((updateBlog.contentHTMLMarkdown = data.contentHTMLMarkdown), { where: { data: data } });
                 await updateBlog.save();
-                resolve(up);
+                resolve(updateBlog);
             }
             resolve({});
         } catch (err) {
             rejects(err);
+        }
+    });
+
+export const getBlog = () =>
+    new Promise(async (resolve, rejects) => {
+        try {
+            const cate = await db.Blog.findAll({});
+        } catch (error) {
+            rejects(error);
+        }
+    });
+
+export const getOneBolg = (id) =>
+    new Promise(async (resolve, rejects) => {
+        try {
+            const data = await db.Blog.findOne({
+                where: { id: id },
+                attributes: ['id', 'title', 'image', 'contentHTML', 'contentHTMLMarkdown', 'createdAt'],
+            });
+            if (data == null) {
+                resolve({
+                    msg: 'ko tim thay id',
+                });
+            }
+            resolve(data);
+        } catch (error) {
+            rejects(error);
         }
     });
