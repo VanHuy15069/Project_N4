@@ -27,7 +27,7 @@ initRoutes(app);
 //
 
 // static images folder
-app.use('/scr', express.static(path.join(__dirname, '/Images')));
+app.use('/src', express.static(path.join(__dirname, '/Images')));
 //kết nối với cơ sở dữ liệu
 connectDB();
 

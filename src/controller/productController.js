@@ -120,6 +120,22 @@ export const getProductDetails = async (req, res) => {
         });
     }
 };
+//tìm kiếm tên sản phẩm
+export const getTitle = async (req, res) => {
+    try {
+        const title = await productService.getTitleFilter(req.query);
+        res.status(200).json({
+            title: title,
+            err: 0,
+            msg: 'getTitle is successful',
+        });
+    } catch (error) {
+        res.status(500).json({
+            err: -1,
+            msg: 'getTitle failed' + error,
+        });
+    }
+};
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -134,7 +150,7 @@ export const upload = multer({
     storage: storage,
     limits: { fileSize: '1000000' },
     fileFilter: (req, file, cb) => {
-        const fileTypes = /jpeg|jpg|png|gif/;
+        const fileTypes = /jpeg|jpg|png|webp/;
         const mimeType = fileTypes.test(file.mimetype);
         const extname = fileTypes.test(path.extname(file.originalname));
 

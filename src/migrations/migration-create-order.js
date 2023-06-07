@@ -21,6 +21,14 @@ module.exports = {
             priceTotal: {
                 type: Sequelize.INTEGER,
             },
+            deleted: {
+                type: Sequelize.BOOLEAN,
+                defaultValue : false,
+            },
+            createdAt: {
+                allowNull: false,
+                type: Sequelize.DATE,
+            },
             updatedAt: {
                 allowNull: false,
                 type: Sequelize.DATE,

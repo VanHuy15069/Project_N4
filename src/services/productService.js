@@ -1,9 +1,8 @@
 import db from '../models';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import { Op } from 'sequelize';
 import fs from 'fs';
-import { promisify } from 'util';
-import { fileURLToPath } from 'url';
 import path from 'path';
 dotenv.config({ path: './env.example' });
 
@@ -70,7 +69,17 @@ export const getProductDetails = (id) =>
         try {
             const details = await db.Product.findOne({
                 where: { id: id },
-                attributes: ['categoryId', 'title', 'image', 'price', 'weight', 'supplier', 'summary', 'quantity'],
+                attributes: [
+                    'id',
+                    'categoryId',
+                    'title',
+                    'image',
+                    'price',
+                    'weight',
+                    'supplier',
+                    'summary',
+                    'quantity',
+                ],
                 include: [
                     {
                         model: db.Categories,
@@ -130,6 +139,33 @@ export const updateProduct = (data) =>
                 resolve(up);
             }
             resolve({});
+        } catch (error) {
+            reject(error);
+        }
+    });
+
+//tìm kiếm tên sản phẩm
+export const getTitleFilter = ({ page, limit, sort, title, ...query }) =>
+    new Promise(async (resolve, reject) => {
+        try {
+            // page,limit ,title truyền theo params
+            //limit số lượng muốn lấy của sản phẩm
+            const queries = { raw: true, nest: true };
+            //phân trang
+            const offset = !page || +page <= 1 ? 0 : +page - 1;
+            //láy số lượng sản phẩm
+            const fLimit = +limit || +process.env.Limit_Product;
+            queries.offset = offset * fLimit;
+            queries.limit = fLimit;
+            //sắp xếp truyền theo params
+            if (sort) queries.sort = [sort];
+            //filter theo tên
+            if (title) query.title = { [Op.substring]: title };
+            const response = await db.Product.findAndCountAll({
+                where: query,
+                ...queries,
+            });
+            resolve(response);
         } catch (error) {
             reject(error);
         }
