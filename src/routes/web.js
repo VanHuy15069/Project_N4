@@ -7,6 +7,7 @@ import categoryRouter from './category';
 import orderRouter from './order';
 import contactRouter from './contact';
 import orderDetails from './orderDetails';
+import blogRouter from './blog';
 let router = express.Router();
 
 const initRoutes = (app) => {
@@ -17,6 +18,7 @@ const initRoutes = (app) => {
     app.use('/api/v1/order', orderRouter);
     app.use('/api/v1/contact', contactRouter);
     app.use('/api/v1/orderDetails', orderDetails);
+    app.use('/api/v1/blog', blogRouter);
     router.get('/crud', homeController.getCRUD);
 
     return app.use('/', router);
