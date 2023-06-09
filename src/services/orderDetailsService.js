@@ -15,7 +15,7 @@ export const addOrderDetails = (data) => new Promise(async(resolve, reject)=>{
 export const getOrderDetails = (id)=> new Promise(async(resolve, reject)=>{
     try {
         const data = await db.orderDetails.findOne({
-            where : {userId : id},
+            where : {id : id},
             attributes : ['userId','fullName','address','phoneNumber','email','note','status','createdAt'],
             include :[{
                 model : db.User,
