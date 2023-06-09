@@ -11,7 +11,7 @@ export const addOrderDetails = async(req,res)=>{
             note : req.body.note,
             status : req.body.status,
         }
-        if(!data.userId || !data.fullName || !data.address || !data.phoneNumber || !data.email || !data.note || !data.status){
+        if(!data.userId || !data.fullName || !data.address || !data.phoneNumber || !data.email || !data.status){
             res.status(400).json({
                 err:1,
                 msg:'orderDetails lack of information'
@@ -66,3 +66,18 @@ export const deleteOrderDetail = async (req,res)=>{
         })
     }
 }
+export const getAllOrderDetails = async (req, res) => {
+    try {
+        const cate = await orderDetailsService.getAllOrderDetails();
+        res.status(200).json({
+            cate: cate,
+            err: 0,
+            meg: 'getAllOrderDetail is successful',
+        });
+    } catch (error) {
+        res.status(500).json({
+            err: -1,
+            msg: 'get failed detail' + error,
+        });
+    }
+};

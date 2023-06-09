@@ -48,3 +48,16 @@ export const deleteOrderDetail = (id)=> new Promise(async(resolve, reject) => {
         reject(error);
     }
 })
+
+
+export const getAllOrderDetails = () =>
+    new Promise(async (resolve, reject) => {
+        try {
+            const data = await db.orderDetails.findAll({
+                raw: true,
+            });
+            resolve(data);
+        } catch (error) {
+            reject(error);
+        }
+    });

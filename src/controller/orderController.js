@@ -78,14 +78,14 @@ export const updateOrder = async (req,res)=>{
             quantity : req.body.quantity,
             deleted : req.body.deleted,
         }
-        if(!data.quantity || !data.deleted || !data.id){
+        if(!data.quantity || !data.id){
             res.status(404).json({
                 err:1,
                 msg:'id or name or deleted not found'
             })
         }
         else{
-            const response = await orderService.updateOrder(id);
+            const response = await orderService.updateOrder(data);
             res.status(200).json({
                 err:0,
                 msg:'update is successful',
