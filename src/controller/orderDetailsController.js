@@ -68,9 +68,9 @@ export const deleteOrderDetail = async (req,res)=>{
 }
 export const getAllOrderDetails = async (req, res) => {
     try {
-        const cate = await orderDetailsService.getAllOrderDetails();
+        const orders = await orderDetailsService.getAllOrderDetails();
         res.status(200).json({
-            cate: cate,
+            orders: orders,
             err: 0,
             meg: 'getAllOrderDetail is successful',
         });

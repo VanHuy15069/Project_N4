@@ -54,7 +54,7 @@ export const getAllOrderDetails = () =>
     new Promise(async (resolve, reject) => {
         try {
             const data = await db.orderDetails.findAll({
-                raw: true,
+                raw: true
             });
             resolve(data);
         } catch (error) {
