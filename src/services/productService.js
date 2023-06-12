@@ -170,3 +170,19 @@ export const getTitleFilter = ({ page, limit, sort, title, ...query }) =>
             reject(error);
         }
     });
+
+    export const updateQuantityProduct = (data) => new Promise(async(resolve, reject) => {
+        try {
+            const findId = await db.Product.findOne({
+                where : {id : data.id}
+            })
+            if(data){
+                findId.update((findId.quantity = Number(data.quantity) + findId.quantity), { where: { data: data } });
+                await findId.save();
+                resolve(findId);
+            }
+            reject();
+        } catch (error) {
+            reject();
+        }
+    })

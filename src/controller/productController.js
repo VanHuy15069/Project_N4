@@ -160,3 +160,32 @@ export const upload = multer({
         cb('Give proper files formate to upload');
     },
 }).single('image');
+
+export const updateQuantityProduct = async (req,res)=>{
+    try {
+        const data = {
+            id : req.params.id,
+            quantity : req.body.quantity,
+        }
+        if(!data.quantity || !data.id){
+            res.status(404).json({
+                err:1,
+                msg:'id or quantity not found'
+            })
+        }
+        else{
+            const response = await productService.updateQuantityProduct(data);
+            res.status(200).json({
+                err:0,
+                msg:'update is successfuly',
+                response : response,
+            })
+        }
+
+    } catch (error) {
+        res.status(500).json({
+            err:-1,
+            msg:'updateOrderDetails failed' + error,
+        })
+    }
+}

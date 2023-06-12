@@ -61,3 +61,30 @@ export const getAllOrderDetails = () =>
             reject(error);
         }
     });
+    export const updateOrderDetails = (data) => new Promise(async(resolve, reject) => {
+        try {
+            const findId = await db.orderDetails.findOne({
+                where : {id : data.id}
+            })
+            if(data){
+                findId.update((findId.status = data.status), { where: { data: data } });
+                await findId.save();
+                resolve(findId);
+                if(data.status === "Đã duyệt"){
+                    const findIdOrder = await db.Order.findAll({
+                        where : {userId: findId.userId}
+                    })
+                    findIdOrder.forEach( async element => {
+                        const findProduct = await db.Product.findOne({
+                            where : {id: element.productId}
+                        })
+                        findProduct.update((findProduct.quantity = findProduct.quantity - element.quantity), {where : {data : element}})
+                        await findProduct.save()
+                    });
+                }
+            }
+            reject();
+        } catch (error) {
+            reject();
+        }
+    })

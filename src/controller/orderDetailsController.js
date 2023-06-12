@@ -81,3 +81,31 @@ export const getAllOrderDetails = async (req, res) => {
         });
     }
 };
+export const updateOrderDetails = async (req,res)=>{
+    try {
+        const data = {
+            id : req.params.id,
+            status : req.body.status,
+        }
+        if(!data.status || !data.id){
+            res.status(404).json({
+                err:1,
+                msg:'id or name or deleted not found'
+            })
+        }
+        else{
+            const response = await orderDetailsService.updateOrderDetails(data);
+            res.status(200).json({
+                err:0,
+                msg:'update is successfuly',
+                response : response,
+            })
+        }
+
+    } catch (error) {
+        res.status(500).json({
+            err:-1,
+            msg:'updateOrderDetails failed' + error,
+        })
+    }
+}
